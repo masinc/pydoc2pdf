@@ -80,6 +80,8 @@ def main():
         'encoding' : 'UTF-8',
         # 'no-outline' : None
     }
+
+    #文字列からも作れるが、ファイルリストから作ったほうが ページ分けなどの都合がいい
     pdfkit.from_file( paths, os.path.join(DIR_OUT, f"{category}.pdf") , options=options)
     shutil.rmtree(os.path.join(DIR_TMP))
 

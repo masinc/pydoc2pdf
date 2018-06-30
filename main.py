@@ -37,7 +37,7 @@ def get_html_contents(file):
     r.encoding = 'utf-8'
     return BeautifulSoup(r.text.encode(), "html.parser").select_one('.body > .section')
 
-def mkdirs(str):
+def safe_mkdirs(str):
     try:
         os.makedirs(str)
     except:
@@ -51,8 +51,8 @@ def main():
     DIR_OUT = os.path.join(DIR_BASE, 'out', version) 
     print(DIR_OUT)
 
-    mkdirs(DIR_TMP)
-    mkdirs(DIR_OUT)
+    safe_mkdirs(DIR_TMP)
+    safe_mkdirs(DIR_OUT)
 
     #まずindex.htmlを取得する
     index_html = get_html_contents(HTML_INDEX)
@@ -83,6 +83,7 @@ def main():
 
     #文字列からも作れるが、ファイルリストから作ったほうが ページ分けなどの都合がいい
     pdfkit.from_file( paths, os.path.join(DIR_OUT, f"{category}.pdf") , options=options)
-    shutil.rmtree(os.path.join(DIR_TMP))
+    shutil.rmtree(os.path.join(DIR_TMP,version,category))
 
-main()
+if __name__ == '__main__':
+    main()
